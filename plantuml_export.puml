@@ -1,0 +1,143 @@
+@startuml
+
+class Prosumer {
+  +id: string
+  +name: string
+  +energyBalance: number
+  +offerEnergy(amount: number, pricePerUnit: number): EnergyOffer
+}
+
+class EnergyProductionData {
+  +currentProduction: number
+  +historicalProduction: number[]
+  +getRealTimeProduction(): number
+  +getHistoricalProduction(): number[]
+}
+
+class EnergyConsumptionData {
+  +currentConsumption: number
+  +historicalConsumption: number[]
+  +getRealTimeConsumption(): number
+  +getHistoricalConsumption(): number[]
+}
+
+class EnergyStorageDevice {
+  +id: string
+  +capacity: number
+  +currentChargeLevel: number
+  +deviceType: string
+  +storeEnergy(amount: number): void
+  +dischargeEnergy(amount: number): void
+}
+
+class EnergyOffer {
+  +offerId: string
+  +amount: number
+  +pricePerUnit: number
+  +createOffer(): void
+  +acceptOffer(buyer: Prosumer): SmartContract
+}
+
+class SmartContract {
+  +contractId: string
+  +buyer: Prosumer
+  +seller: Prosumer
+  +energyAmount: number
+  +pricePerUnit: number
+  +executeContract(): void
+}
+
+class BlockchainTransaction {
+  +transactionId: string
+  +contractId: string
+  +timestamp: Date
+  +status: string
+  +recordTransaction(): void
+  +verifyTransaction(): boolean
+}
+
+class EnergyMarket {
+  +currentPrices: Map<string, number>
+  +availableOffers: EnergyOffer[]
+  +getRealTimePrices(): Map<string, number>
+  +matchBuyersAndSellers(): void
+}
+
+class AIEngine {
+  +energyModels: string[]
+  +generateEnergyForecast(): void
+  +optimizeEnergyUsage(): void
+}
+
+class Microgrid {
+  +gridId: string
+  +status: string
+  +switchToIslandMode(): void
+  +returnToGrid(): void
+}
+
+class IoTSensor {
+  +sensorId: string
+  +type: string
+  +status: string
+  +monitorGridStatus(): void
+  +sendSensorData(): void
+}
+
+class UtilityCompany {
+  +utilityId: string
+  +gridStabilityData: string
+  +energyRequests: number
+  +monitorGridStability(): void
+  +manageEnergyRequests(): void
+}
+
+class RenewableEnergyCredit {
+  +creditId: string
+  +prosumer: Prosumer
+  +energyGenerated: number
+  +verificationStatus: boolean
+  +createREC(): void
+  +verifyREC(): void
+  +tradeREC(): void
+}
+
+class OwnershipToken {
+  +tokenId: string
+  +prosumer: Prosumer
+  +ownershipPercentage: number
+  +issueToken(): void
+  +tradeToken(): void
+}
+
+class CommunityProject {
+  +projectId: string
+  +location: string
+  +totalCapacity: number
+  +currentEnergyGenerated: number
+  +manageShares(): void
+  +distributeEnergy(): void
+}
+
+' Relationships
+Prosumer -- EnergyProductionData : 1-to-1
+Prosumer -- EnergyConsumptionData : 1-to-1
+Prosumer -- EnergyStorageDevice : 1-to-many
+Prosumer -- EnergyMarket : many-to-1
+Prosumer -- EnergyOffer : 1-to-many
+EnergyOffer -- SmartContract : 1-to-1
+SmartContract -- BlockchainTransaction : 1-to-1
+Prosumer -- SmartContract : 1-to-many
+AIEngine -- Prosumer : many-to-1
+AIEngine -- EnergyStorageDevice : many-to-1
+Microgrid -- Prosumer : many-to-1
+Microgrid -- EnergyStorageDevice : many-to-1
+IoTSensor -- Microgrid : 1-to-many
+UtilityCompany -- Microgrid : many-to-1
+UtilityCompany -- EnergyMarket : 1-to-many
+RenewableEnergyCredit -- Prosumer : many-to-1
+RenewableEnergyCredit -- BlockchainTransaction : 1-to-1
+OwnershipToken -- CommunityProject : 1-to-many
+CommunityProject -- Prosumer : many-to-many
+
+@enduml
